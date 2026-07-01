@@ -13,7 +13,7 @@ def get_strapi_api_settings() -> tuple[str, dict[str, str]]:
 
     strapi_token = os.getenv("STRAPI_TOKEN")
     if not strapi_token:
-        raise RuntimeError("STRAPI_TOKEN is missing in .env")
+        raise RuntimeError("В .env не найден STRAPI_TOKEN")
 
     strapi_api_url = os.getenv("STRAPI_API_URL", DEFAULT_STRAPI_API_URL).rstrip("/")
     headers = {"Authorization": f"Bearer {strapi_token}"}
@@ -39,6 +39,7 @@ def fetch_product(product_document_id: str) -> dict:
     response = requests.get(
         f"{strapi_api_url}/products/{product_document_id}",
         headers=headers,
+        params={"populate": "image"},
         timeout=10,
     )
     response.raise_for_status()
