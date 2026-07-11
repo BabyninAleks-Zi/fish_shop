@@ -12,39 +12,15 @@ Telegram-бот для магазина рыбы. Бот показывает т
 - Просит email для оформления заказа.
 - Записывает email клиента в Strapi.
 
-## Структура проекта
-
-```text
-fish_shop/
-├── tg_state_bot.py          # главный файл бота и стейт-машина
-├── requirements.txt         # Python-зависимости
-└── utils/
-    ├── config.py            # чтение настроек из .env
-    ├── storage.py           # подключение к Redis
-    ├── strapi_api.py        # запросы к Strapi API
-    └── telegram_ui.py       # кнопки и форматирование сообщений
-```
 
 `tg_state_bot.py` остаётся оркестратором: он решает, в каком состоянии находится пользователь и какую функцию вызвать дальше.
 
-## Как работает стейт-машина
-
-У бота есть несколько состояний:
-
-- `START` — начальное состояние.
-- `HANDLE_MENU` — пользователь видит список товаров.
-- `HANDLE_DESCRIPTION` — пользователь смотрит карточку товара.
-- `HANDLE_CART` — пользователь смотрит корзину.
-- `WAITING_EMAIL` — бот ждёт email для связи.
-
-Состояние пользователя хранится в Redis по Telegram chat id.
 
 ## Что нужно установить
 
 Нужны:
 
 - Python 3.10+
-- Redis
 - Node.js
 - локальная Strapi CMS
 
@@ -66,12 +42,7 @@ STRAPI_TOKEN=your_strapi_api_token
 
 STRAPI_API_URL=http://localhost:1337/api
 STRAPI_URL=http://localhost:1337
-
-REDIS_HOST=localhost
-REDIS_PORT=6379
 ```
-
-`STRAPI_API_URL`, `STRAPI_URL`, `REDIS_HOST` и `REDIS_PORT` можно не указывать, если используются значения по умолчанию.
 
 ## Настройка Strapi
 
@@ -107,20 +78,14 @@ REDIS_PORT=6379
 
 ## Как запустить
 
-1. Запустите Redis:
-
-```bash
-redis-server
-```
-
-2. Запустите Strapi:
+1. Запустите Strapi:
 
 ```bash
 cd cms
 npm run develop
 ```
 
-3. В отдельной консоли запустите бота:
+2. В отдельной консоли запустите бота:
 
 ```bash
 source .venv/bin/activate
